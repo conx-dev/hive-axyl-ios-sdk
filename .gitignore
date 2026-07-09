@@ -1,0 +1,8 @@
+.DS_Store
+.build/
+.swiftpm/
+Package.resolved
+AGENTS.md
+CLAUDE.md
+xcuserdata/
+*.xcuserstate
