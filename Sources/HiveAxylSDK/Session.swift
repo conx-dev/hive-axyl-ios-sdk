@@ -7,7 +7,6 @@ final class Session: @unchecked Sendable {
         static let refreshToken = "hive-ng.player.refresh"
         static let playerValidationToken = "hive-ng.player.validationToken"
         static let playerValidationTokenExpiresAt = "hive-ng.player.validationTokenExpiresAt"
-        static let deviceId = "hive-ng.device.id"
     }
 
     let storage: TokenStorage

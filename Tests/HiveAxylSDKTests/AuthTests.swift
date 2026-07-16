@@ -73,9 +73,14 @@ final class AuthTests: XCTestCase {
             return StubResponse(statusCode: 200, body: try TestSupport.proto(loginResponse))
         }
         let storage = InMemoryTokenStorage()
+        let guestStorage = TestGuestInstallationStorage()
         storage.set(Session.Keys.accessToken, "access-stale")
         storage.set(Session.Keys.refreshToken, "refresh-stale")
-        let hive = try await TestSupport.makeInitializedHive(router: router, storage: storage)
+        let hive = try await TestSupport.makeInitializedHive(
+            router: router,
+            storage: storage,
+            guestStorage: guestStorage
+        )
 
         let player = try await hive.auth.loginWithGoogle(idToken: "google-id-token")
 
@@ -87,6 +92,7 @@ final class AuthTests: XCTestCase {
         XCTAssertEqual(hive.auth.currentPlayer()?.playerId, "player-g-1")
         XCTAssertEqual(storage.get(Session.Keys.accessToken), "access-1")
         XCTAssertEqual(storage.get(Session.Keys.refreshToken), "refresh-1")
+        XCTAssertNil(guestStorage.value)
     }
 
     func testLoginWithAppleSendsIdentityTokenAndPersists() async throws {
@@ -139,8 +145,9 @@ final class AuthTests: XCTestCase {
         XCTAssertEqual(storage.get(Session.Keys.refreshToken), "refresh-f")
     }
 
-    func testLoginAsGuestSendsDeviceIdAndPersists() async throws {
+    func testLoginAsGuestCreatesInstallationCredentialAndPersists() async throws {
         let router = MockRouter()
+        var providerToken = ""
         var loginResponse = Hiveng_V1_LoginWithProviderResponse()
         loginResponse.player = TestSupport.player(id: "player-guest-1")
         loginResponse.tokenPair = TestSupport.tokenPair(access: "access-g", refresh: "refresh-g")
@@ -148,34 +155,91 @@ final class AuthTests: XCTestCase {
             XCTAssertEqual(request.path, "/hiveng.v1.AuthService/LoginWithProvider")
             let decoded = try Hiveng_V1_LoginWithProviderRequest(serializedBytes: request.body)
             XCTAssertEqual(decoded.provider, .guest)
-            XCTAssertEqual(decoded.providerToken, "device-abc")
+            providerToken = decoded.providerToken
+            XCTAssertNotNil(decoded.providerToken.range(
+                of: "^g1_[A-Za-z0-9_-]{43}$",
+                options: .regularExpression
+            ))
             XCTAssertEqual(decoded.platform, .ios)
             return StubResponse(statusCode: 200, body: try TestSupport.proto(loginResponse))
         }
         let storage = InMemoryTokenStorage()
-        let hive = try await TestSupport.makeInitializedHive(router: router, storage: storage)
+        let guestStorage = TestGuestInstallationStorage()
+        let hive = try await TestSupport.makeInitializedHive(
+            router: router,
+            storage: storage,
+            guestStorage: guestStorage
+        )
 
-        let player = try await hive.auth.loginAsGuest(deviceId: "device-abc")
+        let player = try await hive.auth.loginAsGuest()
 
         XCTAssertEqual(player.playerId, "player-guest-1")
         XCTAssertEqual(hive.auth.currentPlayer()?.playerId, "player-guest-1")
         XCTAssertEqual(storage.get(Session.Keys.accessToken), "access-g")
         XCTAssertEqual(storage.get(Session.Keys.refreshToken), "refresh-g")
+        XCTAssertEqual(guestStorage.value, providerToken)
     }
 
-    func testEmptyDeviceIdThrowsInvalidArgument() async throws {
+    func testGuestCredentialSurvivesLogoutAndNewClient() async throws {
         let router = MockRouter()
-        TestSupport.routeWithDiscovery(router) { _ in StubResponse(statusCode: 200, body: Data()) }
-        let hive = try await TestSupport.makeInitializedHive(router: router, storage: InMemoryTokenStorage())
+        var providerTokens: [String] = []
+        var loginResponse = Hiveng_V1_LoginWithProviderResponse()
+        loginResponse.player = TestSupport.player(id: "player-guest-1")
+        loginResponse.tokenPair = TestSupport.tokenPair(access: "access-g", refresh: "refresh-g")
+        TestSupport.routeWithDiscovery(router) { request in
+            if request.path == "/hiveng.v1.AuthService/Logout" {
+                return StubResponse(
+                    statusCode: 200,
+                    body: try TestSupport.proto(Hiveng_V1_LogoutResponse())
+                )
+            }
+            let decoded = try Hiveng_V1_LoginWithProviderRequest(serializedBytes: request.body)
+            providerTokens.append(decoded.providerToken)
+            return StubResponse(statusCode: 200, body: try TestSupport.proto(loginResponse))
+        }
+        let guestStorage = TestGuestInstallationStorage()
+        let first = try await TestSupport.makeInitializedHive(
+            router: router,
+            storage: InMemoryTokenStorage(),
+            guestStorage: guestStorage
+        )
+
+        _ = try await first.auth.loginAsGuest()
+        try await first.auth.logout()
+        let second = try await TestSupport.makeInitializedHive(
+            router: router,
+            storage: InMemoryTokenStorage(),
+            guestStorage: guestStorage
+        )
+        _ = try await second.auth.loginAsGuest()
+
+        XCTAssertEqual(providerTokens.count, 2)
+        XCTAssertEqual(providerTokens[0], providerTokens[1])
+        XCTAssertEqual(guestStorage.value, providerTokens[0])
+    }
+
+    func testGuestStorageFailureStopsBeforeLoginRequest() async throws {
+        let router = MockRouter()
+        var loginRequestCount = 0
+        TestSupport.routeWithDiscovery(router) { _ in
+            loginRequestCount += 1
+            return StubResponse(statusCode: 200, body: Data())
+        }
+        let hive = try await TestSupport.makeInitializedHive(
+            router: router,
+            storage: InMemoryTokenStorage(),
+            guestStorage: TestGuestInstallationStorage(canWrite: false)
+        )
 
         do {
-            _ = try await hive.auth.loginAsGuest(deviceId: "")
-            XCTFail("expected invalidArgument")
+            _ = try await hive.auth.loginAsGuest()
+            XCTFail("expected storage failure")
         } catch let error as HiveAxylError {
-            guard case .invalidArgument = error else {
-                return XCTFail("expected invalidArgument, got \(error)")
+            guard case let .code(code, _) = error, code == .internal else {
+                return XCTFail("expected internal storage error, got \(error)")
             }
         }
+        XCTAssertEqual(loginRequestCount, 0)
     }
 
     func testEmptyIdTokenThrowsInvalidArgument() async throws {

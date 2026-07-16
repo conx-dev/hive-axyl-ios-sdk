@@ -34,6 +34,7 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
   case alreadyExists // = 4
   case permissionDenied // = 5
   case unauthenticated // = 6
+  case rateLimited // = 7
 
   /// 게이트 / 접속 (100-199)
   case maintenanceInProgress // = 100
@@ -89,6 +90,7 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
     case 4: self = .alreadyExists
     case 5: self = .permissionDenied
     case 6: self = .unauthenticated
+    case 7: self = .rateLimited
     case 100: self = .maintenanceInProgress
     case 101: self = .geoBlocked
     case 102: self = .clientVersionUnsupported
@@ -128,6 +130,7 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
     case .alreadyExists: return 4
     case .permissionDenied: return 5
     case .unauthenticated: return 6
+    case .rateLimited: return 7
     case .maintenanceInProgress: return 100
     case .geoBlocked: return 101
     case .clientVersionUnsupported: return 102
@@ -167,6 +170,7 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
     .alreadyExists,
     .permissionDenied,
     .unauthenticated,
+    .rateLimited,
     .maintenanceInProgress,
     .geoBlocked,
     .clientVersionUnsupported,
@@ -287,7 +291,7 @@ public nonisolated struct Hiveng_V1_PageResponse: Sendable {
 fileprivate nonisolated let _protobuf_package = "hiveng.v1"
 
 nonisolated extension Hiveng_V1_ErrorCode: SwiftProtobuf._ProtoNameProviding {
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0ERROR_CODE_UNSPECIFIED\0\u{1}ERROR_CODE_INTERNAL\0\u{1}ERROR_CODE_INVALID_ARGUMENT\0\u{1}ERROR_CODE_NOT_FOUND\0\u{1}ERROR_CODE_ALREADY_EXISTS\0\u{1}ERROR_CODE_PERMISSION_DENIED\0\u{1}ERROR_CODE_UNAUTHENTICATED\0\u{2}^\u{1}ERROR_CODE_MAINTENANCE_IN_PROGRESS\0\u{1}ERROR_CODE_GEO_BLOCKED\0\u{1}ERROR_CODE_CLIENT_VERSION_UNSUPPORTED\0\u{2}b\u{1}ERROR_CODE_PLAYER_BANNED\0\u{1}ERROR_CODE_INVALID_PROVIDER_TOKEN\0\u{1}ERROR_CODE_PROVIDER_NOT_ENABLED\0\u{1}ERROR_CODE_CREDENTIAL_NOT_CONFIGURED\0\u{1}ERROR_CODE_SESSION_EXPIRED\0\u{1}ERROR_CODE_PLAYER_NOT_FOUND\0\u{2}_\u{1}ERROR_CODE_DUPLICATE_RECEIPT\0\u{1}ERROR_CODE_RECEIPT_VERIFICATION_FAILED\0\u{1}ERROR_CODE_MARKET_NOT_SUPPORTED\0\u{1}ERROR_CODE_PURCHASE_PENDING\0\u{2}a\u{1}ERROR_CODE_API_KEY_INVALID\0\u{1}ERROR_CODE_API_KEY_REVOKED\0\u{1}ERROR_CODE_SERVER_KEY_INVALID\0\u{1}ERROR_CODE_SERVER_KEY_REVOKED\0\u{2}a\u{1}ERROR_CODE_ADMIN_EMAIL_EXISTS\0\u{1}ERROR_CODE_ADMIN_INVALID_CREDENTIALS\0\u{1}ERROR_CODE_PACKAGE_NAME_EXISTS\0\u{1}ERROR_CODE_PROJECT_NOT_LIVE\0\u{1}ERROR_CODE_PROJECT_SUSPENDED\0\u{1}ERROR_CODE_PROJECT_DELETED\0\u{2}_\u{1}ERROR_CODE_MAIL_NOT_FOUND\0\u{1}ERROR_CODE_MAIL_ALREADY_CLAIMED\0\u{1}ERROR_CODE_MAIL_NOT_CLAIMABLE\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0ERROR_CODE_UNSPECIFIED\0\u{1}ERROR_CODE_INTERNAL\0\u{1}ERROR_CODE_INVALID_ARGUMENT\0\u{1}ERROR_CODE_NOT_FOUND\0\u{1}ERROR_CODE_ALREADY_EXISTS\0\u{1}ERROR_CODE_PERMISSION_DENIED\0\u{1}ERROR_CODE_UNAUTHENTICATED\0\u{1}ERROR_CODE_RATE_LIMITED\0\u{2}]\u{1}ERROR_CODE_MAINTENANCE_IN_PROGRESS\0\u{1}ERROR_CODE_GEO_BLOCKED\0\u{1}ERROR_CODE_CLIENT_VERSION_UNSUPPORTED\0\u{2}b\u{1}ERROR_CODE_PLAYER_BANNED\0\u{1}ERROR_CODE_INVALID_PROVIDER_TOKEN\0\u{1}ERROR_CODE_PROVIDER_NOT_ENABLED\0\u{1}ERROR_CODE_CREDENTIAL_NOT_CONFIGURED\0\u{1}ERROR_CODE_SESSION_EXPIRED\0\u{1}ERROR_CODE_PLAYER_NOT_FOUND\0\u{2}_\u{1}ERROR_CODE_DUPLICATE_RECEIPT\0\u{1}ERROR_CODE_RECEIPT_VERIFICATION_FAILED\0\u{1}ERROR_CODE_MARKET_NOT_SUPPORTED\0\u{1}ERROR_CODE_PURCHASE_PENDING\0\u{2}a\u{1}ERROR_CODE_API_KEY_INVALID\0\u{1}ERROR_CODE_API_KEY_REVOKED\0\u{1}ERROR_CODE_SERVER_KEY_INVALID\0\u{1}ERROR_CODE_SERVER_KEY_REVOKED\0\u{2}a\u{1}ERROR_CODE_ADMIN_EMAIL_EXISTS\0\u{1}ERROR_CODE_ADMIN_INVALID_CREDENTIALS\0\u{1}ERROR_CODE_PACKAGE_NAME_EXISTS\0\u{1}ERROR_CODE_PROJECT_NOT_LIVE\0\u{1}ERROR_CODE_PROJECT_SUSPENDED\0\u{1}ERROR_CODE_PROJECT_DELETED\0\u{2}_\u{1}ERROR_CODE_MAIL_NOT_FOUND\0\u{1}ERROR_CODE_MAIL_ALREADY_CLAIMED\0\u{1}ERROR_CODE_MAIL_NOT_CLAIMABLE\0")
 }
 
 nonisolated extension Hiveng_V1_RuntimeEnvironment: SwiftProtobuf._ProtoNameProviding {

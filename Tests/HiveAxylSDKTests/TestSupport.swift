@@ -15,8 +15,12 @@ enum TestSupport {
         return configuration
     }
 
-    static func makeConfig(router: MockRouter, storage: TokenStorage) -> HiveAxylConfig {
-        HiveAxylConfig(
+    static func makeConfig(
+        router: MockRouter,
+        storage: TokenStorage,
+        guestStorage: GuestInstallationStorage = TestGuestInstallationStorage()
+    ) -> HiveAxylConfig {
+        var config = HiveAxylConfig(
             gatewayUrl: "https://gateway.test.hive-axyl",
             projectId: projectId,
             apiKey: "test-api-key",
@@ -25,6 +29,8 @@ enum TestSupport {
             tokenStorage: storage,
             urlSessionConfiguration: makeConfiguration(router)
         )
+        config.guestInstallationStorage = guestStorage
+        return config
     }
 
     // ResolveEndpoints를 자동 응답한 뒤 나머지는 handler에 위임한다.
@@ -53,8 +59,13 @@ enum TestSupport {
     }
 
     // discovery까지 끝나 초기화된 HiveAxyl. router는 호출 전에 핸들러가 설정돼 있어야 한다.
-    static func makeInitializedHive(router: MockRouter, storage: TokenStorage) async throws -> HiveAxyl {
-        let hive = try HiveAxyl(config: makeConfig(router: router, storage: storage))
+    static func makeInitializedHive(
+        router: MockRouter,
+        storage: TokenStorage,
+        guestStorage: GuestInstallationStorage = TestGuestInstallationStorage()
+    ) async throws -> HiveAxyl {
+        let config = makeConfig(router: router, storage: storage, guestStorage: guestStorage)
+        let hive = try HiveAxyl(config: config)
         try await hive.initialize()
         return hive
     }
@@ -102,5 +113,27 @@ enum TestSupport {
         player.lastLoginPlatform = .ios
         player.providers = [.google]
         return player
+    }
+}
+
+final class TestGuestInstallationStorage: GuestInstallationStorage {
+    private let canWrite: Bool
+    private(set) var value: String?
+
+    init(value: String? = nil, canWrite: Bool = true) {
+        self.value = value
+        self.canWrite = canWrite
+    }
+
+    func get() throws -> String? {
+        value
+    }
+
+    func set(_ value: String) throws -> Bool {
+        if !canWrite {
+            return false
+        }
+        self.value = value
+        return true
     }
 }

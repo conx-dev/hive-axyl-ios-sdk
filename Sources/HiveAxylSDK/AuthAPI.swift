@@ -4,13 +4,15 @@ public typealias BannedCallback = (_ reason: String, _ until: Date?, _ permanent
 
 public final class AuthAPI: @unchecked Sendable {
     private let session: Session
+    private let guestInstallation: GuestInstallation
     private let lock = NSLock()
     private var player: Player?
     private var client: ConnectClient?
     private var bannedCallbacks: [BannedCallback] = []
 
-    init(session: Session) {
+    init(session: Session, guestInstallation: GuestInstallation) {
         self.session = session
+        self.guestInstallation = guestInstallation
     }
 
     func bind(client: ConnectClient) {
@@ -54,12 +56,9 @@ public final class AuthAPI: @unchecked Sendable {
         return try await login(provider: .facebook, providerToken: accessToken)
     }
 
-    // 외부 IdP 없이 디바이스 식별자로 게스트 계정에 로그인한다.
-    public func loginAsGuest(deviceId: String) async throws -> Player {
-        guard !deviceId.isEmpty else {
-            throw HiveAxylError.invalidArgument("deviceId is required")
-        }
-        return try await login(provider: .guest, providerToken: deviceId)
+    public func loginAsGuest() async throws -> Player {
+        let credential = try guestInstallation.getOrCreateCredential()
+        return try await login(provider: .guest, providerToken: credential)
     }
 
     // 저장된 토큰으로 세션을 복원한다. 토큰이 없거나 만료·무효면 nil.

@@ -13,6 +13,7 @@ public struct HiveAxylConfig {
     // 테스트 주입용 훅 — 운영 코드는 기본값 사용
     public var tokenStorage: TokenStorage?
     public var urlSessionConfiguration: URLSessionConfiguration?
+    var guestInstallationStorage: GuestInstallationStorage?
 
     public init(
         gatewayUrl: String = HiveAxylDefaultGatewayUrl,
@@ -32,6 +33,7 @@ public struct HiveAxylConfig {
         self.debug = debug
         self.tokenStorage = tokenStorage
         self.urlSessionConfiguration = urlSessionConfiguration
+        self.guestInstallationStorage = nil
     }
 }
 

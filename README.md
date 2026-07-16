@@ -92,7 +92,7 @@ let providers = try await hive.auth.getLoginProviders()
 
 Supported auth entry points:
 
-- `hive.auth.loginAsGuest(deviceId:)`
+- `hive.auth.loginAsGuest()`
 - `hive.auth.loginWithGoogle(idToken:)`
 - `hive.auth.loginWithApple(identityToken:)`
 - `hive.auth.loginWithFacebook(accessToken:)`
@@ -101,6 +101,8 @@ Supported auth entry points:
 - `hive.auth.currentPlayer()`
 
 OAuth tokens are obtained by your app through the platform provider SDKs. Hive Axyl SDK sends those tokens to the Hive Axyl server for validation.
+
+On the first guest login, the SDK creates a cryptographically random installation credential in Keychain. It is stored separately from session tokens and remains after `logout()`. Identity-provider login neither creates nor uses it. Guest login fails before sending a request when durable storage is unavailable. Clearing the credential can create a new guest account, and the previous guest account may not be recoverable.
 
 ## Payments
 
@@ -124,7 +126,7 @@ Domain errors are surfaced as `HiveAxylError`. Branch on the error case instead 
 
 ```swift
 do {
-    let player = try await hive.auth.loginAsGuest(deviceId: deviceId)
+    let player = try await hive.auth.loginAsGuest()
 } catch HiveAxylError.banned(let reason, let until, let permanent) {
 } catch HiveAxylError.maintenance(let info) {
 } catch {
