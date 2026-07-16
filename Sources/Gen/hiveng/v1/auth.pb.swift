@@ -356,6 +356,76 @@ public nonisolated struct Hiveng_V1_LoginWithProviderResponse: @unchecked Sendab
   fileprivate var _storage = _StorageClass.defaultInstance
 }
 
+public nonisolated struct Hiveng_V1_StartFacebookDesktopLoginRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var returnURL: String = String()
+
+  public var callbackState: String = String()
+
+  public var platform: Hiveng_V1_ClientPlatform = .unspecified
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_StartFacebookDesktopLoginResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var authorizationURL: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_CompleteFacebookDesktopLoginRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var completionCode: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_CompleteFacebookDesktopLoginResponse: @unchecked Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var player: Hiveng_V1_Player {
+    get {_storage._player ?? Hiveng_V1_Player()}
+    set {_uniqueStorage()._player = newValue}
+  }
+  /// Returns true if `player` has been explicitly set.
+  public var hasPlayer: Bool {_storage._player != nil}
+  /// Clears the value of `player`. Subsequent reads from it will return its default value.
+  public mutating func clearPlayer() {_uniqueStorage()._player = nil}
+
+  public var tokenPair: Hiveng_V1_TokenPair {
+    get {_storage._tokenPair ?? Hiveng_V1_TokenPair()}
+    set {_uniqueStorage()._tokenPair = newValue}
+  }
+  /// Returns true if `tokenPair` has been explicitly set.
+  public var hasTokenPair: Bool {_storage._tokenPair != nil}
+  /// Clears the value of `tokenPair`. Subsequent reads from it will return its default value.
+  public mutating func clearTokenPair() {_uniqueStorage()._tokenPair = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
+}
+
 public nonisolated struct Hiveng_V1_RefreshTokenRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -996,6 +1066,183 @@ nonisolated extension Hiveng_V1_LoginWithProviderResponse: SwiftProtobuf.Message
   }
 
   public static func ==(lhs: Hiveng_V1_LoginWithProviderResponse, rhs: Hiveng_V1_LoginWithProviderResponse) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._player != rhs_storage._player {return false}
+        if _storage._tokenPair != rhs_storage._tokenPair {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_StartFacebookDesktopLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".StartFacebookDesktopLoginRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}return_url\0\u{3}callback_state\0\u{1}platform\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.returnURL) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.callbackState) }()
+      case 3: try { try decoder.decodeSingularEnumField(value: &self.platform) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.returnURL.isEmpty {
+      try visitor.visitSingularStringField(value: self.returnURL, fieldNumber: 1)
+    }
+    if !self.callbackState.isEmpty {
+      try visitor.visitSingularStringField(value: self.callbackState, fieldNumber: 2)
+    }
+    if self.platform != .unspecified {
+      try visitor.visitSingularEnumField(value: self.platform, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_StartFacebookDesktopLoginRequest, rhs: Hiveng_V1_StartFacebookDesktopLoginRequest) -> Bool {
+    if lhs.returnURL != rhs.returnURL {return false}
+    if lhs.callbackState != rhs.callbackState {return false}
+    if lhs.platform != rhs.platform {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_StartFacebookDesktopLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".StartFacebookDesktopLoginResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}authorization_url\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.authorizationURL) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.authorizationURL.isEmpty {
+      try visitor.visitSingularStringField(value: self.authorizationURL, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_StartFacebookDesktopLoginResponse, rhs: Hiveng_V1_StartFacebookDesktopLoginResponse) -> Bool {
+    if lhs.authorizationURL != rhs.authorizationURL {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_CompleteFacebookDesktopLoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CompleteFacebookDesktopLoginRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}completion_code\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.completionCode) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.completionCode.isEmpty {
+      try visitor.visitSingularStringField(value: self.completionCode, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_CompleteFacebookDesktopLoginRequest, rhs: Hiveng_V1_CompleteFacebookDesktopLoginRequest) -> Bool {
+    if lhs.completionCode != rhs.completionCode {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_CompleteFacebookDesktopLoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CompleteFacebookDesktopLoginResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}player\0\u{3}token_pair\0")
+
+  fileprivate class _StorageClass {
+    var _player: Hiveng_V1_Player? = nil
+    var _tokenPair: Hiveng_V1_TokenPair? = nil
+
+      // This property is used as the initial default value for new instances of the type.
+      // The type itself is protecting the reference to its storage via CoW semantics.
+      // This will force a copy to be made of this reference when the first mutation occurs;
+      // hence, it is safe to mark this as `nonisolated(unsafe)`.
+      static nonisolated(unsafe) let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _player = source._player
+      _tokenPair = source._tokenPair
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        // The use of inline closures is to circumvent an issue where the compiler
+        // allocates stack space for every case branch when no optimizations are
+        // enabled. https://github.com/apple/swift-protobuf/issues/1034
+        switch fieldNumber {
+        case 1: try { try decoder.decodeSingularMessageField(value: &_storage._player) }()
+        case 2: try { try decoder.decodeSingularMessageField(value: &_storage._tokenPair) }()
+        default: break
+        }
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every if/case branch local when no optimizations
+      // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+      // https://github.com/apple/swift-protobuf/issues/1182
+      try { if let v = _storage._player {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      } }()
+      try { if let v = _storage._tokenPair {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      } }()
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_CompleteFacebookDesktopLoginResponse, rhs: Hiveng_V1_CompleteFacebookDesktopLoginResponse) -> Bool {
     if lhs._storage !== rhs._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0

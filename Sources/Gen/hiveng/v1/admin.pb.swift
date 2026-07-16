@@ -199,6 +199,76 @@ public nonisolated struct Hiveng_V1_LoginResponse: Sendable {
   fileprivate var _admin: Hiveng_V1_Admin? = nil
 }
 
+public nonisolated struct Hiveng_V1_CreateMcpSessionTokenRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_CreateMcpSessionTokenResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  /// Codex MCP console_connect에 입력하는 1회용 코드.
+  public var code: String = String()
+
+  public var expiresAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_expiresAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_expiresAt = newValue}
+  }
+  /// Returns true if `expiresAt` has been explicitly set.
+  public var hasExpiresAt: Bool {self._expiresAt != nil}
+  /// Clears the value of `expiresAt`. Subsequent reads from it will return its default value.
+  public mutating func clearExpiresAt() {self._expiresAt = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _expiresAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+}
+
+public nonisolated struct Hiveng_V1_ConsumeMcpSessionTokenRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var code: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_ConsumeMcpSessionTokenResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var admin: Hiveng_V1_Admin {
+    get {_admin ?? Hiveng_V1_Admin()}
+    set {_admin = newValue}
+  }
+  /// Returns true if `admin` has been explicitly set.
+  public var hasAdmin: Bool {self._admin != nil}
+  /// Clears the value of `admin`. Subsequent reads from it will return its default value.
+  public mutating func clearAdmin() {self._admin = nil}
+
+  /// MCP 세션 내부에서만 사용하는 콘솔 인증용 JWT.
+  public var token: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _admin: Hiveng_V1_Admin? = nil
+}
+
 public nonisolated struct Hiveng_V1_ChangePasswordRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -214,6 +284,26 @@ public nonisolated struct Hiveng_V1_ChangePasswordRequest: Sendable {
 }
 
 public nonisolated struct Hiveng_V1_ChangePasswordResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_ConsoleServiceLogoutRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_ConsoleServiceLogoutResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -609,6 +699,133 @@ nonisolated extension Hiveng_V1_LoginResponse: SwiftProtobuf.Message, SwiftProto
   }
 }
 
+nonisolated extension Hiveng_V1_CreateMcpSessionTokenRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CreateMcpSessionTokenRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    // Load everything into unknown fields
+    while try decoder.nextFieldNumber() != nil {}
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_CreateMcpSessionTokenRequest, rhs: Hiveng_V1_CreateMcpSessionTokenRequest) -> Bool {
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_CreateMcpSessionTokenResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CreateMcpSessionTokenResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}code\0\u{3}expires_at\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.code) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._expiresAt) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.code.isEmpty {
+      try visitor.visitSingularStringField(value: self.code, fieldNumber: 1)
+    }
+    try { if let v = self._expiresAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_CreateMcpSessionTokenResponse, rhs: Hiveng_V1_CreateMcpSessionTokenResponse) -> Bool {
+    if lhs.code != rhs.code {return false}
+    if lhs._expiresAt != rhs._expiresAt {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_ConsumeMcpSessionTokenRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ConsumeMcpSessionTokenRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}code\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.code) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.code.isEmpty {
+      try visitor.visitSingularStringField(value: self.code, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_ConsumeMcpSessionTokenRequest, rhs: Hiveng_V1_ConsumeMcpSessionTokenRequest) -> Bool {
+    if lhs.code != rhs.code {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_ConsumeMcpSessionTokenResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ConsumeMcpSessionTokenResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}admin\0\u{1}token\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._admin) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._admin {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    if !self.token.isEmpty {
+      try visitor.visitSingularStringField(value: self.token, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_ConsumeMcpSessionTokenResponse, rhs: Hiveng_V1_ConsumeMcpSessionTokenResponse) -> Bool {
+    if lhs._admin != rhs._admin {return false}
+    if lhs.token != rhs.token {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 nonisolated extension Hiveng_V1_ChangePasswordRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".ChangePasswordRequest"
   public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}current_password\0\u{3}new_password\0")
@@ -658,6 +875,44 @@ nonisolated extension Hiveng_V1_ChangePasswordResponse: SwiftProtobuf.Message, S
   }
 
   public static func ==(lhs: Hiveng_V1_ChangePasswordResponse, rhs: Hiveng_V1_ChangePasswordResponse) -> Bool {
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_ConsoleServiceLogoutRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ConsoleServiceLogoutRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    // Load everything into unknown fields
+    while try decoder.nextFieldNumber() != nil {}
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_ConsoleServiceLogoutRequest, rhs: Hiveng_V1_ConsoleServiceLogoutRequest) -> Bool {
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_ConsoleServiceLogoutResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ConsoleServiceLogoutResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    // Load everything into unknown fields
+    while try decoder.nextFieldNumber() != nil {}
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_ConsoleServiceLogoutResponse, rhs: Hiveng_V1_ConsoleServiceLogoutResponse) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

@@ -194,6 +194,93 @@ public nonisolated struct Hiveng_V1_GetMaintenanceResponse: Sendable {
   fileprivate var _info: Hiveng_V1_MaintenanceInfo? = nil
 }
 
+public nonisolated struct Hiveng_V1_MaintenanceHistory: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var id: String = String()
+
+  public var projectID: String = String()
+
+  public var info: Hiveng_V1_MaintenanceInfo {
+    get {_info ?? Hiveng_V1_MaintenanceInfo()}
+    set {_info = newValue}
+  }
+  /// Returns true if `info` has been explicitly set.
+  public var hasInfo: Bool {self._info != nil}
+  /// Clears the value of `info`. Subsequent reads from it will return its default value.
+  public mutating func clearInfo() {self._info = nil}
+
+  public var testerIps: [String] = []
+
+  public var bypassPlayerIds: [String] = []
+
+  public var archivedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_archivedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_archivedAt = newValue}
+  }
+  /// Returns true if `archivedAt` has been explicitly set.
+  public var hasArchivedAt: Bool {self._archivedAt != nil}
+  /// Clears the value of `archivedAt`. Subsequent reads from it will return its default value.
+  public mutating func clearArchivedAt() {self._archivedAt = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _info: Hiveng_V1_MaintenanceInfo? = nil
+  fileprivate var _archivedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+}
+
+public nonisolated struct Hiveng_V1_ListMaintenanceHistoriesRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var projectID: String = String()
+
+  public var page: Hiveng_V1_PageRequest {
+    get {_page ?? Hiveng_V1_PageRequest()}
+    set {_page = newValue}
+  }
+  /// Returns true if `page` has been explicitly set.
+  public var hasPage: Bool {self._page != nil}
+  /// Clears the value of `page`. Subsequent reads from it will return its default value.
+  public mutating func clearPage() {self._page = nil}
+
+  public var environment: Hiveng_V1_RuntimeEnvironment = .unspecified
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _page: Hiveng_V1_PageRequest? = nil
+}
+
+public nonisolated struct Hiveng_V1_ListMaintenanceHistoriesResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var histories: [Hiveng_V1_MaintenanceHistory] = []
+
+  public var page: Hiveng_V1_PageResponse {
+    get {_page ?? Hiveng_V1_PageResponse()}
+    set {_page = newValue}
+  }
+  /// Returns true if `page` has been explicitly set.
+  public var hasPage: Bool {self._page != nil}
+  /// Clears the value of `page`. Subsequent reads from it will return its default value.
+  public mutating func clearPage() {self._page = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _page: Hiveng_V1_PageResponse? = nil
+}
+
 public nonisolated struct Hiveng_V1_PreviewMaintenanceRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -375,6 +462,52 @@ public nonisolated struct Hiveng_V1_MaintenanceAdminServiceGetMaintenanceRespons
   public init() {}
 
   fileprivate var _info: Hiveng_V1_MaintenanceInfo? = nil
+}
+
+public nonisolated struct Hiveng_V1_MaintenanceAdminServiceListMaintenanceHistoriesRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var projectID: String = String()
+
+  public var page: Hiveng_V1_PageRequest {
+    get {_page ?? Hiveng_V1_PageRequest()}
+    set {_page = newValue}
+  }
+  /// Returns true if `page` has been explicitly set.
+  public var hasPage: Bool {self._page != nil}
+  /// Clears the value of `page`. Subsequent reads from it will return its default value.
+  public mutating func clearPage() {self._page = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _page: Hiveng_V1_PageRequest? = nil
+}
+
+public nonisolated struct Hiveng_V1_MaintenanceAdminServiceListMaintenanceHistoriesResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var histories: [Hiveng_V1_MaintenanceHistory] = []
+
+  public var page: Hiveng_V1_PageResponse {
+    get {_page ?? Hiveng_V1_PageResponse()}
+    set {_page = newValue}
+  }
+  /// Returns true if `page` has been explicitly set.
+  public var hasPage: Bool {self._page != nil}
+  /// Clears the value of `page`. Subsequent reads from it will return its default value.
+  public mutating func clearPage() {self._page = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _page: Hiveng_V1_PageResponse? = nil
 }
 
 public nonisolated struct Hiveng_V1_MaintenanceAdminServicePreviewMaintenanceRequest: Sendable {
@@ -811,6 +944,148 @@ nonisolated extension Hiveng_V1_GetMaintenanceResponse: SwiftProtobuf.Message, S
   }
 }
 
+nonisolated extension Hiveng_V1_MaintenanceHistory: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".MaintenanceHistory"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}id\0\u{3}project_id\0\u{1}info\0\u{3}tester_ips\0\u{3}bypass_player_ids\0\u{3}archived_at\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.id) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.projectID) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._info) }()
+      case 4: try { try decoder.decodeRepeatedStringField(value: &self.testerIps) }()
+      case 5: try { try decoder.decodeRepeatedStringField(value: &self.bypassPlayerIds) }()
+      case 6: try { try decoder.decodeSingularMessageField(value: &self._archivedAt) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.id.isEmpty {
+      try visitor.visitSingularStringField(value: self.id, fieldNumber: 1)
+    }
+    if !self.projectID.isEmpty {
+      try visitor.visitSingularStringField(value: self.projectID, fieldNumber: 2)
+    }
+    try { if let v = self._info {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
+    if !self.testerIps.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.testerIps, fieldNumber: 4)
+    }
+    if !self.bypassPlayerIds.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.bypassPlayerIds, fieldNumber: 5)
+    }
+    try { if let v = self._archivedAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_MaintenanceHistory, rhs: Hiveng_V1_MaintenanceHistory) -> Bool {
+    if lhs.id != rhs.id {return false}
+    if lhs.projectID != rhs.projectID {return false}
+    if lhs._info != rhs._info {return false}
+    if lhs.testerIps != rhs.testerIps {return false}
+    if lhs.bypassPlayerIds != rhs.bypassPlayerIds {return false}
+    if lhs._archivedAt != rhs._archivedAt {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_ListMaintenanceHistoriesRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ListMaintenanceHistoriesRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}project_id\0\u{1}page\0\u{1}environment\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.projectID) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._page) }()
+      case 3: try { try decoder.decodeSingularEnumField(value: &self.environment) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.projectID.isEmpty {
+      try visitor.visitSingularStringField(value: self.projectID, fieldNumber: 1)
+    }
+    try { if let v = self._page {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    } }()
+    if self.environment != .unspecified {
+      try visitor.visitSingularEnumField(value: self.environment, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_ListMaintenanceHistoriesRequest, rhs: Hiveng_V1_ListMaintenanceHistoriesRequest) -> Bool {
+    if lhs.projectID != rhs.projectID {return false}
+    if lhs._page != rhs._page {return false}
+    if lhs.environment != rhs.environment {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_ListMaintenanceHistoriesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ListMaintenanceHistoriesResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}histories\0\u{1}page\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.histories) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._page) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.histories.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.histories, fieldNumber: 1)
+    }
+    try { if let v = self._page {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_ListMaintenanceHistoriesResponse, rhs: Hiveng_V1_ListMaintenanceHistoriesResponse) -> Bool {
+    if lhs.histories != rhs.histories {return false}
+    if lhs._page != rhs._page {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 nonisolated extension Hiveng_V1_PreviewMaintenanceRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".PreviewMaintenanceRequest"
   public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}project_id\0\u{1}language\0\u{3}client_ip\0\u{3}player_id\0\u{1}at\0\u{1}environment\0")
@@ -1145,6 +1420,84 @@ nonisolated extension Hiveng_V1_MaintenanceAdminServiceGetMaintenanceResponse: S
     if lhs._info != rhs._info {return false}
     if lhs.testerIps != rhs.testerIps {return false}
     if lhs.bypassPlayerIds != rhs.bypassPlayerIds {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_MaintenanceAdminServiceListMaintenanceHistoriesRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".MaintenanceAdminServiceListMaintenanceHistoriesRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}project_id\0\u{1}page\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.projectID) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._page) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.projectID.isEmpty {
+      try visitor.visitSingularStringField(value: self.projectID, fieldNumber: 1)
+    }
+    try { if let v = self._page {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_MaintenanceAdminServiceListMaintenanceHistoriesRequest, rhs: Hiveng_V1_MaintenanceAdminServiceListMaintenanceHistoriesRequest) -> Bool {
+    if lhs.projectID != rhs.projectID {return false}
+    if lhs._page != rhs._page {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_MaintenanceAdminServiceListMaintenanceHistoriesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".MaintenanceAdminServiceListMaintenanceHistoriesResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}histories\0\u{1}page\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.histories) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._page) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.histories.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.histories, fieldNumber: 1)
+    }
+    try { if let v = self._page {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_MaintenanceAdminServiceListMaintenanceHistoriesResponse, rhs: Hiveng_V1_MaintenanceAdminServiceListMaintenanceHistoriesResponse) -> Bool {
+    if lhs.histories != rhs.histories {return false}
+    if lhs._page != rhs._page {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
