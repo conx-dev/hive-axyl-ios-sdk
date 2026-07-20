@@ -63,6 +63,90 @@ public nonisolated enum Hiveng_V1_ProjectRole: SwiftProtobuf.Enum, Swift.CaseIte
 
 }
 
+public nonisolated enum Hiveng_V1_AdminEmailVerificationFlow: SwiftProtobuf.Enum, Swift.CaseIterable {
+  public typealias RawValue = Int
+  case unspecified // = 0
+  case signUp // = 1
+  case reverify // = 2
+  case UNRECOGNIZED(Int)
+
+  public init() {
+    self = .unspecified
+  }
+
+  public init?(rawValue: Int) {
+    switch rawValue {
+    case 0: self = .unspecified
+    case 1: self = .signUp
+    case 2: self = .reverify
+    default: self = .UNRECOGNIZED(rawValue)
+    }
+  }
+
+  public var rawValue: Int {
+    switch self {
+    case .unspecified: return 0
+    case .signUp: return 1
+    case .reverify: return 2
+    case .UNRECOGNIZED(let i): return i
+    }
+  }
+
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  public static let allCases: [Hiveng_V1_AdminEmailVerificationFlow] = [
+    .unspecified,
+    .signUp,
+    .reverify,
+  ]
+
+}
+
+public nonisolated enum Hiveng_V1_ProjectInvitationStatus: SwiftProtobuf.Enum, Swift.CaseIterable {
+  public typealias RawValue = Int
+  case unspecified // = 0
+  case pending // = 1
+  case expired // = 2
+  case accepted // = 3
+  case cancelled // = 4
+  case UNRECOGNIZED(Int)
+
+  public init() {
+    self = .unspecified
+  }
+
+  public init?(rawValue: Int) {
+    switch rawValue {
+    case 0: self = .unspecified
+    case 1: self = .pending
+    case 2: self = .expired
+    case 3: self = .accepted
+    case 4: self = .cancelled
+    default: self = .UNRECOGNIZED(rawValue)
+    }
+  }
+
+  public var rawValue: Int {
+    switch self {
+    case .unspecified: return 0
+    case .pending: return 1
+    case .expired: return 2
+    case .accepted: return 3
+    case .cancelled: return 4
+    case .UNRECOGNIZED(let i): return i
+    }
+  }
+
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  public static let allCases: [Hiveng_V1_ProjectInvitationStatus] = [
+    .unspecified,
+    .pending,
+    .expired,
+    .accepted,
+    .cancelled,
+  ]
+
+}
+
 /// 콘솔 계정.
 public nonisolated struct Hiveng_V1_Admin: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
@@ -84,11 +168,21 @@ public nonisolated struct Hiveng_V1_Admin: Sendable {
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   public mutating func clearCreatedAt() {self._createdAt = nil}
 
+  public var emailVerifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_emailVerifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_emailVerifiedAt = newValue}
+  }
+  /// Returns true if `emailVerifiedAt` has been explicitly set.
+  public var hasEmailVerifiedAt: Bool {self._emailVerifiedAt != nil}
+  /// Clears the value of `emailVerifiedAt`. Subsequent reads from it will return its default value.
+  public mutating func clearEmailVerifiedAt() {self._emailVerifiedAt = nil}
+
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   public init() {}
 
   fileprivate var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _emailVerifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
 /// 프로젝트에 속한 멤버.
@@ -114,11 +208,115 @@ public nonisolated struct Hiveng_V1_ProjectMember: Sendable {
   /// Clears the value of `addedAt`. Subsequent reads from it will return its default value.
   public mutating func clearAddedAt() {self._addedAt = nil}
 
+  public var emailVerified: Bool = false
+
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   public init() {}
 
   fileprivate var _addedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+}
+
+public nonisolated struct Hiveng_V1_ProjectInvitation: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var id: String = String()
+
+  public var projectID: String = String()
+
+  public var projectName: String = String()
+
+  public var email: String = String()
+
+  public var role: Hiveng_V1_ProjectRole = .unspecified
+
+  public var status: Hiveng_V1_ProjectInvitationStatus = .unspecified
+
+  public var invitedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_invitedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_invitedAt = newValue}
+  }
+  /// Returns true if `invitedAt` has been explicitly set.
+  public var hasInvitedAt: Bool {self._invitedAt != nil}
+  /// Clears the value of `invitedAt`. Subsequent reads from it will return its default value.
+  public mutating func clearInvitedAt() {self._invitedAt = nil}
+
+  public var expiresAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_expiresAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_expiresAt = newValue}
+  }
+  /// Returns true if `expiresAt` has been explicitly set.
+  public var hasExpiresAt: Bool {self._expiresAt != nil}
+  /// Clears the value of `expiresAt`. Subsequent reads from it will return its default value.
+  public mutating func clearExpiresAt() {self._expiresAt = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _invitedAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+  fileprivate var _expiresAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+}
+
+public nonisolated struct Hiveng_V1_RequestAdminEmailVerificationRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var email: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_RequestAdminEmailVerificationResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_GetAdminEmailVerificationRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var token: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_GetAdminEmailVerificationResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var email: String = String()
+
+  public var flow: Hiveng_V1_AdminEmailVerificationFlow = .unspecified
+
+  public var expiresAt: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_expiresAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_expiresAt = newValue}
+  }
+  /// Returns true if `expiresAt` has been explicitly set.
+  public var hasExpiresAt: Bool {self._expiresAt != nil}
+  /// Clears the value of `expiresAt`. Subsequent reads from it will return its default value.
+  public mutating func clearExpiresAt() {self._expiresAt = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _expiresAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
 }
 
 public nonisolated struct Hiveng_V1_SignUpRequest: Sendable {
@@ -131,6 +329,8 @@ public nonisolated struct Hiveng_V1_SignUpRequest: Sendable {
   public var password: String = String()
 
   public var name: String = String()
+
+  public var verificationToken: String = String()
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -152,6 +352,43 @@ public nonisolated struct Hiveng_V1_SignUpResponse: Sendable {
   public mutating func clearAdmin() {self._admin = nil}
 
   /// 콘솔 인증용 JWT.
+  public var token: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _admin: Hiveng_V1_Admin? = nil
+}
+
+public nonisolated struct Hiveng_V1_CompleteAdminEmailReverificationRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var token: String = String()
+
+  public var newPassword: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_CompleteAdminEmailReverificationResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var admin: Hiveng_V1_Admin {
+    get {_admin ?? Hiveng_V1_Admin()}
+    set {_admin = newValue}
+  }
+  /// Returns true if `admin` has been explicitly set.
+  public var hasAdmin: Bool {self._admin != nil}
+  /// Clears the value of `admin`. Subsequent reads from it will return its default value.
+  public mutating func clearAdmin() {self._admin = nil}
+
   public var token: String = String()
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
@@ -329,7 +566,107 @@ public nonisolated struct Hiveng_V1_AddProjectMemberRequest: Sendable {
   public init() {}
 }
 
-public nonisolated struct Hiveng_V1_AddProjectMemberResponse: Sendable {
+public nonisolated struct Hiveng_V1_AddProjectMemberResponse: @unchecked Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  /// NOTE: This field was marked as deprecated in the .proto file.
+  public var member: Hiveng_V1_ProjectMember {
+    get {_storage._member ?? Hiveng_V1_ProjectMember()}
+    set {_uniqueStorage()._member = newValue}
+  }
+  /// Returns true if `member` has been explicitly set.
+  public var hasMember: Bool {_storage._member != nil}
+  /// Clears the value of `member`. Subsequent reads from it will return its default value.
+  public mutating func clearMember() {_uniqueStorage()._member = nil}
+
+  public var invitation: Hiveng_V1_ProjectInvitation {
+    get {_storage._invitation ?? Hiveng_V1_ProjectInvitation()}
+    set {_uniqueStorage()._invitation = newValue}
+  }
+  /// Returns true if `invitation` has been explicitly set.
+  public var hasInvitation: Bool {_storage._invitation != nil}
+  /// Clears the value of `invitation`. Subsequent reads from it will return its default value.
+  public mutating func clearInvitation() {_uniqueStorage()._invitation = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
+}
+
+public nonisolated struct Hiveng_V1_ListProjectInvitationsRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var projectID: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_ListProjectInvitationsResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var invitations: [Hiveng_V1_ProjectInvitation] = []
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_GetProjectInvitationRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var token: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_GetProjectInvitationResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var invitation: Hiveng_V1_ProjectInvitation {
+    get {_invitation ?? Hiveng_V1_ProjectInvitation()}
+    set {_invitation = newValue}
+  }
+  /// Returns true if `invitation` has been explicitly set.
+  public var hasInvitation: Bool {self._invitation != nil}
+  /// Clears the value of `invitation`. Subsequent reads from it will return its default value.
+  public mutating func clearInvitation() {self._invitation = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _invitation: Hiveng_V1_ProjectInvitation? = nil
+}
+
+public nonisolated struct Hiveng_V1_AcceptProjectInvitationRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var token: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_AcceptProjectInvitationResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -348,6 +685,79 @@ public nonisolated struct Hiveng_V1_AddProjectMemberResponse: Sendable {
   public init() {}
 
   fileprivate var _member: Hiveng_V1_ProjectMember? = nil
+}
+
+public nonisolated struct Hiveng_V1_AcceptProjectInvitationWithSignUpRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var token: String = String()
+
+  public var password: String = String()
+
+  public var name: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_AcceptProjectInvitationWithSignUpResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var admin: Hiveng_V1_Admin {
+    get {_admin ?? Hiveng_V1_Admin()}
+    set {_admin = newValue}
+  }
+  /// Returns true if `admin` has been explicitly set.
+  public var hasAdmin: Bool {self._admin != nil}
+  /// Clears the value of `admin`. Subsequent reads from it will return its default value.
+  public mutating func clearAdmin() {self._admin = nil}
+
+  public var token: String = String()
+
+  public var member: Hiveng_V1_ProjectMember {
+    get {_member ?? Hiveng_V1_ProjectMember()}
+    set {_member = newValue}
+  }
+  /// Returns true if `member` has been explicitly set.
+  public var hasMember: Bool {self._member != nil}
+  /// Clears the value of `member`. Subsequent reads from it will return its default value.
+  public mutating func clearMember() {self._member = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _admin: Hiveng_V1_Admin? = nil
+  fileprivate var _member: Hiveng_V1_ProjectMember? = nil
+}
+
+public nonisolated struct Hiveng_V1_CancelProjectInvitationRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var projectID: String = String()
+
+  public var invitationID: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+public nonisolated struct Hiveng_V1_CancelProjectInvitationResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
 }
 
 public nonisolated struct Hiveng_V1_RemoveProjectMemberRequest: Sendable {
@@ -443,9 +853,17 @@ nonisolated extension Hiveng_V1_ProjectRole: SwiftProtobuf._ProtoNameProviding {
   public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0PROJECT_ROLE_UNSPECIFIED\0\u{1}PROJECT_ROLE_OWNER\0\u{1}PROJECT_ROLE_ADMIN\0\u{1}PROJECT_ROLE_VIEWER\0")
 }
 
+nonisolated extension Hiveng_V1_AdminEmailVerificationFlow: SwiftProtobuf._ProtoNameProviding {
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0ADMIN_EMAIL_VERIFICATION_FLOW_UNSPECIFIED\0\u{1}ADMIN_EMAIL_VERIFICATION_FLOW_SIGN_UP\0\u{1}ADMIN_EMAIL_VERIFICATION_FLOW_REVERIFY\0")
+}
+
+nonisolated extension Hiveng_V1_ProjectInvitationStatus: SwiftProtobuf._ProtoNameProviding {
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0PROJECT_INVITATION_STATUS_UNSPECIFIED\0\u{1}PROJECT_INVITATION_STATUS_PENDING\0\u{1}PROJECT_INVITATION_STATUS_EXPIRED\0\u{1}PROJECT_INVITATION_STATUS_ACCEPTED\0\u{1}PROJECT_INVITATION_STATUS_CANCELLED\0")
+}
+
 nonisolated extension Hiveng_V1_Admin: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".Admin"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}id\0\u{1}email\0\u{1}name\0\u{3}created_at\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}id\0\u{1}email\0\u{1}name\0\u{3}created_at\0\u{3}email_verified_at\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -457,6 +875,7 @@ nonisolated extension Hiveng_V1_Admin: SwiftProtobuf.Message, SwiftProtobuf._Mes
       case 2: try { try decoder.decodeSingularStringField(value: &self.email) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self.name) }()
       case 4: try { try decoder.decodeSingularMessageField(value: &self._createdAt) }()
+      case 5: try { try decoder.decodeSingularMessageField(value: &self._emailVerifiedAt) }()
       default: break
       }
     }
@@ -479,6 +898,9 @@ nonisolated extension Hiveng_V1_Admin: SwiftProtobuf.Message, SwiftProtobuf._Mes
     try { if let v = self._createdAt {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
     } }()
+    try { if let v = self._emailVerifiedAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -487,6 +909,7 @@ nonisolated extension Hiveng_V1_Admin: SwiftProtobuf.Message, SwiftProtobuf._Mes
     if lhs.email != rhs.email {return false}
     if lhs.name != rhs.name {return false}
     if lhs._createdAt != rhs._createdAt {return false}
+    if lhs._emailVerifiedAt != rhs._emailVerifiedAt {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -494,7 +917,7 @@ nonisolated extension Hiveng_V1_Admin: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
 nonisolated extension Hiveng_V1_ProjectMember: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".ProjectMember"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}admin_id\0\u{1}email\0\u{1}name\0\u{1}role\0\u{3}added_at\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}admin_id\0\u{1}email\0\u{1}name\0\u{1}role\0\u{3}added_at\0\u{3}email_verified\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -507,6 +930,7 @@ nonisolated extension Hiveng_V1_ProjectMember: SwiftProtobuf.Message, SwiftProto
       case 3: try { try decoder.decodeSingularStringField(value: &self.name) }()
       case 4: try { try decoder.decodeSingularEnumField(value: &self.role) }()
       case 5: try { try decoder.decodeSingularMessageField(value: &self._addedAt) }()
+      case 6: try { try decoder.decodeSingularBoolField(value: &self.emailVerified) }()
       default: break
       }
     }
@@ -532,6 +956,9 @@ nonisolated extension Hiveng_V1_ProjectMember: SwiftProtobuf.Message, SwiftProto
     try { if let v = self._addedAt {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
     } }()
+    if self.emailVerified != false {
+      try visitor.visitSingularBoolField(value: self.emailVerified, fieldNumber: 6)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -541,6 +968,199 @@ nonisolated extension Hiveng_V1_ProjectMember: SwiftProtobuf.Message, SwiftProto
     if lhs.name != rhs.name {return false}
     if lhs.role != rhs.role {return false}
     if lhs._addedAt != rhs._addedAt {return false}
+    if lhs.emailVerified != rhs.emailVerified {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_ProjectInvitation: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ProjectInvitation"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}id\0\u{3}project_id\0\u{3}project_name\0\u{1}email\0\u{1}role\0\u{1}status\0\u{3}invited_at\0\u{3}expires_at\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.id) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.projectID) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.projectName) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.email) }()
+      case 5: try { try decoder.decodeSingularEnumField(value: &self.role) }()
+      case 6: try { try decoder.decodeSingularEnumField(value: &self.status) }()
+      case 7: try { try decoder.decodeSingularMessageField(value: &self._invitedAt) }()
+      case 8: try { try decoder.decodeSingularMessageField(value: &self._expiresAt) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.id.isEmpty {
+      try visitor.visitSingularStringField(value: self.id, fieldNumber: 1)
+    }
+    if !self.projectID.isEmpty {
+      try visitor.visitSingularStringField(value: self.projectID, fieldNumber: 2)
+    }
+    if !self.projectName.isEmpty {
+      try visitor.visitSingularStringField(value: self.projectName, fieldNumber: 3)
+    }
+    if !self.email.isEmpty {
+      try visitor.visitSingularStringField(value: self.email, fieldNumber: 4)
+    }
+    if self.role != .unspecified {
+      try visitor.visitSingularEnumField(value: self.role, fieldNumber: 5)
+    }
+    if self.status != .unspecified {
+      try visitor.visitSingularEnumField(value: self.status, fieldNumber: 6)
+    }
+    try { if let v = self._invitedAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+    } }()
+    try { if let v = self._expiresAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_ProjectInvitation, rhs: Hiveng_V1_ProjectInvitation) -> Bool {
+    if lhs.id != rhs.id {return false}
+    if lhs.projectID != rhs.projectID {return false}
+    if lhs.projectName != rhs.projectName {return false}
+    if lhs.email != rhs.email {return false}
+    if lhs.role != rhs.role {return false}
+    if lhs.status != rhs.status {return false}
+    if lhs._invitedAt != rhs._invitedAt {return false}
+    if lhs._expiresAt != rhs._expiresAt {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_RequestAdminEmailVerificationRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".RequestAdminEmailVerificationRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.email) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.email.isEmpty {
+      try visitor.visitSingularStringField(value: self.email, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_RequestAdminEmailVerificationRequest, rhs: Hiveng_V1_RequestAdminEmailVerificationRequest) -> Bool {
+    if lhs.email != rhs.email {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_RequestAdminEmailVerificationResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".RequestAdminEmailVerificationResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    // Load everything into unknown fields
+    while try decoder.nextFieldNumber() != nil {}
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_RequestAdminEmailVerificationResponse, rhs: Hiveng_V1_RequestAdminEmailVerificationResponse) -> Bool {
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_GetAdminEmailVerificationRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".GetAdminEmailVerificationRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}token\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.token.isEmpty {
+      try visitor.visitSingularStringField(value: self.token, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_GetAdminEmailVerificationRequest, rhs: Hiveng_V1_GetAdminEmailVerificationRequest) -> Bool {
+    if lhs.token != rhs.token {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_GetAdminEmailVerificationResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".GetAdminEmailVerificationResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0\u{1}flow\0\u{3}expires_at\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.email) }()
+      case 2: try { try decoder.decodeSingularEnumField(value: &self.flow) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._expiresAt) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.email.isEmpty {
+      try visitor.visitSingularStringField(value: self.email, fieldNumber: 1)
+    }
+    if self.flow != .unspecified {
+      try visitor.visitSingularEnumField(value: self.flow, fieldNumber: 2)
+    }
+    try { if let v = self._expiresAt {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_GetAdminEmailVerificationResponse, rhs: Hiveng_V1_GetAdminEmailVerificationResponse) -> Bool {
+    if lhs.email != rhs.email {return false}
+    if lhs.flow != rhs.flow {return false}
+    if lhs._expiresAt != rhs._expiresAt {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -548,7 +1168,7 @@ nonisolated extension Hiveng_V1_ProjectMember: SwiftProtobuf.Message, SwiftProto
 
 nonisolated extension Hiveng_V1_SignUpRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".SignUpRequest"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0\u{1}password\0\u{1}name\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}email\0\u{1}password\0\u{1}name\0\u{3}verification_token\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -559,6 +1179,7 @@ nonisolated extension Hiveng_V1_SignUpRequest: SwiftProtobuf.Message, SwiftProto
       case 1: try { try decoder.decodeSingularStringField(value: &self.email) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.password) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self.name) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.verificationToken) }()
       default: break
       }
     }
@@ -574,6 +1195,9 @@ nonisolated extension Hiveng_V1_SignUpRequest: SwiftProtobuf.Message, SwiftProto
     if !self.name.isEmpty {
       try visitor.visitSingularStringField(value: self.name, fieldNumber: 3)
     }
+    if !self.verificationToken.isEmpty {
+      try visitor.visitSingularStringField(value: self.verificationToken, fieldNumber: 4)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -581,6 +1205,7 @@ nonisolated extension Hiveng_V1_SignUpRequest: SwiftProtobuf.Message, SwiftProto
     if lhs.email != rhs.email {return false}
     if lhs.password != rhs.password {return false}
     if lhs.name != rhs.name {return false}
+    if lhs.verificationToken != rhs.verificationToken {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -618,6 +1243,80 @@ nonisolated extension Hiveng_V1_SignUpResponse: SwiftProtobuf.Message, SwiftProt
   }
 
   public static func ==(lhs: Hiveng_V1_SignUpResponse, rhs: Hiveng_V1_SignUpResponse) -> Bool {
+    if lhs._admin != rhs._admin {return false}
+    if lhs.token != rhs.token {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_CompleteAdminEmailReverificationRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CompleteAdminEmailReverificationRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}token\0\u{3}new_password\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.newPassword) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.token.isEmpty {
+      try visitor.visitSingularStringField(value: self.token, fieldNumber: 1)
+    }
+    if !self.newPassword.isEmpty {
+      try visitor.visitSingularStringField(value: self.newPassword, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_CompleteAdminEmailReverificationRequest, rhs: Hiveng_V1_CompleteAdminEmailReverificationRequest) -> Bool {
+    if lhs.token != rhs.token {return false}
+    if lhs.newPassword != rhs.newPassword {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_CompleteAdminEmailReverificationResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CompleteAdminEmailReverificationResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}admin\0\u{1}token\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._admin) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._admin {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    if !self.token.isEmpty {
+      try visitor.visitSingularStringField(value: self.token, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_CompleteAdminEmailReverificationResponse, rhs: Hiveng_V1_CompleteAdminEmailReverificationResponse) -> Bool {
     if lhs._admin != rhs._admin {return false}
     if lhs.token != rhs.token {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -960,6 +1659,237 @@ nonisolated extension Hiveng_V1_AddProjectMemberRequest: SwiftProtobuf.Message, 
 
 nonisolated extension Hiveng_V1_AddProjectMemberResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".AddProjectMemberResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}member\0\u{1}invitation\0")
+
+  fileprivate class _StorageClass {
+    var _member: Hiveng_V1_ProjectMember? = nil
+    var _invitation: Hiveng_V1_ProjectInvitation? = nil
+
+      // This property is used as the initial default value for new instances of the type.
+      // The type itself is protecting the reference to its storage via CoW semantics.
+      // This will force a copy to be made of this reference when the first mutation occurs;
+      // hence, it is safe to mark this as `nonisolated(unsafe)`.
+      static nonisolated(unsafe) let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _member = source._member
+      _invitation = source._invitation
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        // The use of inline closures is to circumvent an issue where the compiler
+        // allocates stack space for every case branch when no optimizations are
+        // enabled. https://github.com/apple/swift-protobuf/issues/1034
+        switch fieldNumber {
+        case 1: try { try decoder.decodeSingularMessageField(value: &_storage._member) }()
+        case 2: try { try decoder.decodeSingularMessageField(value: &_storage._invitation) }()
+        default: break
+        }
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every if/case branch local when no optimizations
+      // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+      // https://github.com/apple/swift-protobuf/issues/1182
+      try { if let v = _storage._member {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      } }()
+      try { if let v = _storage._invitation {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      } }()
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_AddProjectMemberResponse, rhs: Hiveng_V1_AddProjectMemberResponse) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._member != rhs_storage._member {return false}
+        if _storage._invitation != rhs_storage._invitation {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_ListProjectInvitationsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ListProjectInvitationsRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}project_id\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.projectID) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.projectID.isEmpty {
+      try visitor.visitSingularStringField(value: self.projectID, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_ListProjectInvitationsRequest, rhs: Hiveng_V1_ListProjectInvitationsRequest) -> Bool {
+    if lhs.projectID != rhs.projectID {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_ListProjectInvitationsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ListProjectInvitationsResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}invitations\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.invitations) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.invitations.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.invitations, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_ListProjectInvitationsResponse, rhs: Hiveng_V1_ListProjectInvitationsResponse) -> Bool {
+    if lhs.invitations != rhs.invitations {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_GetProjectInvitationRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".GetProjectInvitationRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}token\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.token.isEmpty {
+      try visitor.visitSingularStringField(value: self.token, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_GetProjectInvitationRequest, rhs: Hiveng_V1_GetProjectInvitationRequest) -> Bool {
+    if lhs.token != rhs.token {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_GetProjectInvitationResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".GetProjectInvitationResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}invitation\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._invitation) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._invitation {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_GetProjectInvitationResponse, rhs: Hiveng_V1_GetProjectInvitationResponse) -> Bool {
+    if lhs._invitation != rhs._invitation {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_AcceptProjectInvitationRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".AcceptProjectInvitationRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}token\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.token.isEmpty {
+      try visitor.visitSingularStringField(value: self.token, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_AcceptProjectInvitationRequest, rhs: Hiveng_V1_AcceptProjectInvitationRequest) -> Bool {
+    if lhs.token != rhs.token {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_AcceptProjectInvitationResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".AcceptProjectInvitationResponse"
   public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}member\0")
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -985,8 +1915,146 @@ nonisolated extension Hiveng_V1_AddProjectMemberResponse: SwiftProtobuf.Message,
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  public static func ==(lhs: Hiveng_V1_AddProjectMemberResponse, rhs: Hiveng_V1_AddProjectMemberResponse) -> Bool {
+  public static func ==(lhs: Hiveng_V1_AcceptProjectInvitationResponse, rhs: Hiveng_V1_AcceptProjectInvitationResponse) -> Bool {
     if lhs._member != rhs._member {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_AcceptProjectInvitationWithSignUpRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".AcceptProjectInvitationWithSignUpRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}token\0\u{1}password\0\u{1}name\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.password) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.name) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.token.isEmpty {
+      try visitor.visitSingularStringField(value: self.token, fieldNumber: 1)
+    }
+    if !self.password.isEmpty {
+      try visitor.visitSingularStringField(value: self.password, fieldNumber: 2)
+    }
+    if !self.name.isEmpty {
+      try visitor.visitSingularStringField(value: self.name, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_AcceptProjectInvitationWithSignUpRequest, rhs: Hiveng_V1_AcceptProjectInvitationWithSignUpRequest) -> Bool {
+    if lhs.token != rhs.token {return false}
+    if lhs.password != rhs.password {return false}
+    if lhs.name != rhs.name {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_AcceptProjectInvitationWithSignUpResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".AcceptProjectInvitationWithSignUpResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}admin\0\u{1}token\0\u{1}member\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._admin) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._member) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._admin {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    if !self.token.isEmpty {
+      try visitor.visitSingularStringField(value: self.token, fieldNumber: 2)
+    }
+    try { if let v = self._member {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_AcceptProjectInvitationWithSignUpResponse, rhs: Hiveng_V1_AcceptProjectInvitationWithSignUpResponse) -> Bool {
+    if lhs._admin != rhs._admin {return false}
+    if lhs.token != rhs.token {return false}
+    if lhs._member != rhs._member {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_CancelProjectInvitationRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CancelProjectInvitationRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}project_id\0\u{3}invitation_id\0")
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.projectID) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.invitationID) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.projectID.isEmpty {
+      try visitor.visitSingularStringField(value: self.projectID, fieldNumber: 1)
+    }
+    if !self.invitationID.isEmpty {
+      try visitor.visitSingularStringField(value: self.invitationID, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_CancelProjectInvitationRequest, rhs: Hiveng_V1_CancelProjectInvitationRequest) -> Bool {
+    if lhs.projectID != rhs.projectID {return false}
+    if lhs.invitationID != rhs.invitationID {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+nonisolated extension Hiveng_V1_CancelProjectInvitationResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CancelProjectInvitationResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    // Load everything into unknown fields
+    while try decoder.nextFieldNumber() != nil {}
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Hiveng_V1_CancelProjectInvitationResponse, rhs: Hiveng_V1_CancelProjectInvitationResponse) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

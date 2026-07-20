@@ -35,6 +35,8 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
   case permissionDenied // = 5
   case unauthenticated // = 6
   case rateLimited // = 7
+  case requestTooLarge // = 8
+  case requestTimeout // = 9
 
   /// 게이트 / 접속 (100-199)
   case maintenanceInProgress // = 100
@@ -70,6 +72,9 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
   case projectNotLive // = 503
   case projectSuspended // = 504
   case projectDeleted // = 505
+  case adminEmailVerificationRequired // = 506
+  case adminEmailVerificationInvalid // = 507
+  case projectInvitationInvalid // = 508
 
   /// 우편함 (600-699)
   case mailNotFound // = 600
@@ -91,6 +96,8 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
     case 5: self = .permissionDenied
     case 6: self = .unauthenticated
     case 7: self = .rateLimited
+    case 8: self = .requestTooLarge
+    case 9: self = .requestTimeout
     case 100: self = .maintenanceInProgress
     case 101: self = .geoBlocked
     case 102: self = .clientVersionUnsupported
@@ -114,6 +121,9 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
     case 503: self = .projectNotLive
     case 504: self = .projectSuspended
     case 505: self = .projectDeleted
+    case 506: self = .adminEmailVerificationRequired
+    case 507: self = .adminEmailVerificationInvalid
+    case 508: self = .projectInvitationInvalid
     case 600: self = .mailNotFound
     case 601: self = .mailAlreadyClaimed
     case 602: self = .mailNotClaimable
@@ -131,6 +141,8 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
     case .permissionDenied: return 5
     case .unauthenticated: return 6
     case .rateLimited: return 7
+    case .requestTooLarge: return 8
+    case .requestTimeout: return 9
     case .maintenanceInProgress: return 100
     case .geoBlocked: return 101
     case .clientVersionUnsupported: return 102
@@ -154,6 +166,9 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
     case .projectNotLive: return 503
     case .projectSuspended: return 504
     case .projectDeleted: return 505
+    case .adminEmailVerificationRequired: return 506
+    case .adminEmailVerificationInvalid: return 507
+    case .projectInvitationInvalid: return 508
     case .mailNotFound: return 600
     case .mailAlreadyClaimed: return 601
     case .mailNotClaimable: return 602
@@ -171,6 +186,8 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
     .permissionDenied,
     .unauthenticated,
     .rateLimited,
+    .requestTooLarge,
+    .requestTimeout,
     .maintenanceInProgress,
     .geoBlocked,
     .clientVersionUnsupported,
@@ -194,6 +211,9 @@ public nonisolated enum Hiveng_V1_ErrorCode: SwiftProtobuf.Enum, Swift.CaseItera
     .projectNotLive,
     .projectSuspended,
     .projectDeleted,
+    .adminEmailVerificationRequired,
+    .adminEmailVerificationInvalid,
+    .projectInvitationInvalid,
     .mailNotFound,
     .mailAlreadyClaimed,
     .mailNotClaimable,
@@ -291,7 +311,7 @@ public nonisolated struct Hiveng_V1_PageResponse: Sendable {
 fileprivate nonisolated let _protobuf_package = "hiveng.v1"
 
 nonisolated extension Hiveng_V1_ErrorCode: SwiftProtobuf._ProtoNameProviding {
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0ERROR_CODE_UNSPECIFIED\0\u{1}ERROR_CODE_INTERNAL\0\u{1}ERROR_CODE_INVALID_ARGUMENT\0\u{1}ERROR_CODE_NOT_FOUND\0\u{1}ERROR_CODE_ALREADY_EXISTS\0\u{1}ERROR_CODE_PERMISSION_DENIED\0\u{1}ERROR_CODE_UNAUTHENTICATED\0\u{1}ERROR_CODE_RATE_LIMITED\0\u{2}]\u{1}ERROR_CODE_MAINTENANCE_IN_PROGRESS\0\u{1}ERROR_CODE_GEO_BLOCKED\0\u{1}ERROR_CODE_CLIENT_VERSION_UNSUPPORTED\0\u{2}b\u{1}ERROR_CODE_PLAYER_BANNED\0\u{1}ERROR_CODE_INVALID_PROVIDER_TOKEN\0\u{1}ERROR_CODE_PROVIDER_NOT_ENABLED\0\u{1}ERROR_CODE_CREDENTIAL_NOT_CONFIGURED\0\u{1}ERROR_CODE_SESSION_EXPIRED\0\u{1}ERROR_CODE_PLAYER_NOT_FOUND\0\u{2}_\u{1}ERROR_CODE_DUPLICATE_RECEIPT\0\u{1}ERROR_CODE_RECEIPT_VERIFICATION_FAILED\0\u{1}ERROR_CODE_MARKET_NOT_SUPPORTED\0\u{1}ERROR_CODE_PURCHASE_PENDING\0\u{2}a\u{1}ERROR_CODE_API_KEY_INVALID\0\u{1}ERROR_CODE_API_KEY_REVOKED\0\u{1}ERROR_CODE_SERVER_KEY_INVALID\0\u{1}ERROR_CODE_SERVER_KEY_REVOKED\0\u{2}a\u{1}ERROR_CODE_ADMIN_EMAIL_EXISTS\0\u{1}ERROR_CODE_ADMIN_INVALID_CREDENTIALS\0\u{1}ERROR_CODE_PACKAGE_NAME_EXISTS\0\u{1}ERROR_CODE_PROJECT_NOT_LIVE\0\u{1}ERROR_CODE_PROJECT_SUSPENDED\0\u{1}ERROR_CODE_PROJECT_DELETED\0\u{2}_\u{1}ERROR_CODE_MAIL_NOT_FOUND\0\u{1}ERROR_CODE_MAIL_ALREADY_CLAIMED\0\u{1}ERROR_CODE_MAIL_NOT_CLAIMABLE\0")
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0ERROR_CODE_UNSPECIFIED\0\u{1}ERROR_CODE_INTERNAL\0\u{1}ERROR_CODE_INVALID_ARGUMENT\0\u{1}ERROR_CODE_NOT_FOUND\0\u{1}ERROR_CODE_ALREADY_EXISTS\0\u{1}ERROR_CODE_PERMISSION_DENIED\0\u{1}ERROR_CODE_UNAUTHENTICATED\0\u{1}ERROR_CODE_RATE_LIMITED\0\u{1}ERROR_CODE_REQUEST_TOO_LARGE\0\u{1}ERROR_CODE_REQUEST_TIMEOUT\0\u{2}[\u{1}ERROR_CODE_MAINTENANCE_IN_PROGRESS\0\u{1}ERROR_CODE_GEO_BLOCKED\0\u{1}ERROR_CODE_CLIENT_VERSION_UNSUPPORTED\0\u{2}b\u{1}ERROR_CODE_PLAYER_BANNED\0\u{1}ERROR_CODE_INVALID_PROVIDER_TOKEN\0\u{1}ERROR_CODE_PROVIDER_NOT_ENABLED\0\u{1}ERROR_CODE_CREDENTIAL_NOT_CONFIGURED\0\u{1}ERROR_CODE_SESSION_EXPIRED\0\u{1}ERROR_CODE_PLAYER_NOT_FOUND\0\u{2}_\u{1}ERROR_CODE_DUPLICATE_RECEIPT\0\u{1}ERROR_CODE_RECEIPT_VERIFICATION_FAILED\0\u{1}ERROR_CODE_MARKET_NOT_SUPPORTED\0\u{1}ERROR_CODE_PURCHASE_PENDING\0\u{2}a\u{1}ERROR_CODE_API_KEY_INVALID\0\u{1}ERROR_CODE_API_KEY_REVOKED\0\u{1}ERROR_CODE_SERVER_KEY_INVALID\0\u{1}ERROR_CODE_SERVER_KEY_REVOKED\0\u{2}a\u{1}ERROR_CODE_ADMIN_EMAIL_EXISTS\0\u{1}ERROR_CODE_ADMIN_INVALID_CREDENTIALS\0\u{1}ERROR_CODE_PACKAGE_NAME_EXISTS\0\u{1}ERROR_CODE_PROJECT_NOT_LIVE\0\u{1}ERROR_CODE_PROJECT_SUSPENDED\0\u{1}ERROR_CODE_PROJECT_DELETED\0\u{1}ERROR_CODE_ADMIN_EMAIL_VERIFICATION_REQUIRED\0\u{1}ERROR_CODE_ADMIN_EMAIL_VERIFICATION_INVALID\0\u{1}ERROR_CODE_PROJECT_INVITATION_INVALID\0\u{2}\\\u{1}ERROR_CODE_MAIL_NOT_FOUND\0\u{1}ERROR_CODE_MAIL_ALREADY_CLAIMED\0\u{1}ERROR_CODE_MAIL_NOT_CLAIMABLE\0")
 }
 
 nonisolated extension Hiveng_V1_RuntimeEnvironment: SwiftProtobuf._ProtoNameProviding {
