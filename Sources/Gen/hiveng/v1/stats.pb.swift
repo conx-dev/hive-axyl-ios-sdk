@@ -191,10 +191,10 @@ public nonisolated struct Hiveng_V1_GetDailyStatsRequest: Sendable {
 
   public var projectID: String = String()
 
-  /// "YYYY-MM-DD" (UTC, 포함)
+  /// "YYYY-MM-DD" (UTC, 포함). from_date와 to_date는 같은 달이어야 한다.
   public var fromDate: String = String()
 
-  /// "YYYY-MM-DD" (UTC, 포함)
+  /// "YYYY-MM-DD" (UTC, 포함). from_date와 to_date는 같은 달이어야 한다.
   public var toDate: String = String()
 
   public var markets: [Hiveng_V1_Market] = []
@@ -291,10 +291,10 @@ public nonisolated struct Hiveng_V1_GetRevenueStatsRequest: Sendable {
 
   public var projectID: String = String()
 
-  /// "YYYY-MM-DD" (UTC, 포함)
+  /// "YYYY-MM-DD" (UTC, 포함). from_date와 to_date는 같은 달이어야 한다.
   public var fromDate: String = String()
 
-  /// "YYYY-MM-DD" (UTC, 포함)
+  /// "YYYY-MM-DD" (UTC, 포함). from_date와 to_date는 같은 달이어야 한다.
   public var toDate: String = String()
 
   public var environment: Hiveng_V1_RuntimeEnvironment = .unspecified
@@ -353,10 +353,13 @@ public nonisolated struct Hiveng_V1_GetRetentionStatsRequest: Sendable {
 
   public var projectID: String = String()
 
+  /// "YYYY-MM-DD" (UTC, 포함). to_date까지 정확히 8개 날짜여야 한다.
   public var fromDate: String = String()
 
+  /// "YYYY-MM-DD" (UTC, 포함). from_date부터 정확히 8개 날짜여야 한다.
   public var toDate: String = String()
 
+  /// D1~D7. 비어 있으면 D1~D7 전체를 조회한다.
   public var retentionDays: [Int32] = []
 
   public var countries: [String] = []
